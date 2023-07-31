@@ -83,6 +83,18 @@
           package = std.cli.default;
           category = "std";
         }
+        {
+	 package = nixpkgs.cargo-leptos;
+	 category = "repo tools";
+        }
+        {
+	 package = nixpkgs.cargo-generate;
+	 category = "repo tools";
+        }
+	{
+	 package = nixpkgs.sass;
+	 category = "build tools";
+	}
       ]
       ++ rustCmds;
   };
