@@ -1,6 +1,0 @@
-#[test]
-fn ui() {
-    let t = trybuild::TestCases::new();
-    t.compile_fail("tests/ui/component.rs");
-    t.compile_fail("tests/ui/component_absolute.rs");
-}
