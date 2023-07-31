@@ -1,0 +1,20 @@
+[package]
+name = "leptos_config"
+version = { workspace = true }
+edition = "2021"
+authors = ["Greg Johnston"]
+license = "MIT"
+repository = "https://github.com/leptos-rs/leptos"
+description = "Configuration for the Leptos web framework."
+readme = "../README.md"
+
+[dependencies]
+config = "0.13.3"
+regex = "1.7.0"
+serde = { version = "1.0.151", features = ["derive"] }
+thiserror = "1.0.38"
+typed-builder = "0.14"
+
+[dev-dependencies]
+tokio = { version = "1", features = ["rt", "macros"] }
+tempfile = "3"

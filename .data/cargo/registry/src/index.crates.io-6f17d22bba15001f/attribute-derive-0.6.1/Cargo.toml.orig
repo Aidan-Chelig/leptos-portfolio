@@ -1,0 +1,48 @@
+[package]
+categories = ["rust-patterns", "development-tools::procedural-macro-helpers", "parsing"]
+description = "Clap for proc macro attributes"
+documentation = "https://docs.rs/attribute-derive"
+include = ["src/**/*", "LICENSE", "README.md"]
+keywords = ["derive", "macro"]
+license = "MIT"
+readme = "README.md"
+repository = "https://github.com/ModProg/attribute-derive"
+name = "attribute-derive"
+version = "0.6.1"
+edition = "2021"
+
+[lib]
+
+[dependencies]
+proc-macro2 = "1"
+quote = "1"
+syn =  "2"
+
+[features]
+# default = ["syn-full"]
+syn-full = ["syn/full"]
+
+[dependencies.attribute-derive-macro]
+version = "0.6.1"
+path = "macro"
+
+[workspace]
+members = ["example", "macro"]
+
+[package.metadata.release]
+shared-version = true
+
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = '## \[Unreleased\]'
+replace = """
+<!-- ## [Unreleased] -->
+## [{{version}}] - {{date}}\
+"""
+[[package.metadata.release.pre-release-replacements]]
+file = "CHANGELOG.md"
+search = '\[unreleased\]: (.*)/(v.*)\.\.\.HEAD'
+replace = """
+[unreleased]: $1/{{tag_name}}...HEAD
+[{{version}}]: $1/$2...{{tag_name}}\
+"""

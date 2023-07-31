@@ -1,0 +1,25 @@
+[package]
+name = "collection_literals"
+version = "1.0.1"
+edition = "2021"
+description = "Easy-to-use macros for initializing std::collections"
+readme = "README.md"
+repository = "https://github.com/vna2rexlnt/collection_literals"
+license = "MIT"
+exclude = [".idea", "collection_literals.iml"]
+
+
+[[test]]
+name = "collection"
+path = "tests/collection.rs"
+
+[[test]]
+name = "hash"
+path = "tests/hash.rs"
+
+[[test]]
+name = "btree"
+path = "tests/btree.rs"
+
+
+[dependencies]
