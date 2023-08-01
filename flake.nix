@@ -1,6 +1,7 @@
 {
   description = "A very basic flake for Rust development";
 
+  inputs.nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
   inputs.std.url = "github:divnix/std";
   inputs.std.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -14,11 +15,11 @@
 
   inputs.nixpkgs.follows = "fenix/nixpkgs";
 
-  outputs = inputs @ {
+  outputs = {
     self,
     std,
     ...
-  }:
+  } @ inputs:
     std.growOn
     {
       inherit inputs;

@@ -9,8 +9,7 @@
   inputs,
   cell,
 }: let
-  inherit (inputs) nixpkgs presets;
-  inherit (inputs.std) std lib;
+  inherit (inputs.std) nixpkgs std lib presets;
   
   l = nixpkgs.lib // builtins;
 in
@@ -47,6 +46,28 @@ in
     # [1]: https://github.com/divnix/std/tree/main/cells/std/nixago
     # [2]: https://github.com/siderolabs/conform
     # [3]: https://www.conventionalcommits.org/en/v1.0.0/
+    # Lefthook is a pre-commit hook manager.
+    lefthook = std.nixago.lefthook {
+      configData = {
+        commit-msg = {
+          commands = {
+            # Runs conform on commit-msg hook to ensure commit messages are
+            # compliant.
+            conform = {
+              run = "${nixpkgs.conform}/bin/conform enforce --commit-msg-file {1}";
+            };
+          };
+        };
+        pre-commit = {
+          commands = {
+            # Runs treefmt on pre-commit hook to ensure checked-in source code is
+            # properly formatted.
+            treefmt = { run = "${nixpkgs.treefmt}/bin/treefmt {staged_files}";
+            };
+          };
+        };
+      };
+    };
     # Prettier is a multi-language code formatter.
     prettier = lib.dev.mkNixago {
       # We mainly use it here to format the Markdown in our README.
@@ -59,32 +80,4 @@ in
     };
     # Treefmt is an aggregator for source code formatters. Our codebase has
     # markdown, Nix, and Rust, so we configure a formatter for each.
-   # treefmt = presets.nixago.treefmt {
-      #configData = {
-        #formatter = {
-          #nix = {
-            #command = "alejandra";
-            #includes = ["*.nix"];
-          #};
-          #prettier = {
-            #command = "prettier";
-            #options = ["--write"];
-            #includes = ["*.md"];
-          #};
-          #rustfmt = {
-            #command = "rustfmt";
-            #options = ["--edition" "2021"];
-            #includes = ["*.rs"];
-          #};
-        #};
-      #};
-      ## This is the pass-through feature where we can pass attributes to devshell.
-      ## In this case, we're asking devshell to include the `nixpkgs-fmt` and
-      ## `prettier` packages in the development environment. The `rustfmt` package
-      ## is already included within the Rust toolchain (see toolchain.nix).
-      #packages = [
-        #nixpkgs.alejandra
-        #nixpkgs.nodePackages.prettier
-      #];
-    #};
   }
