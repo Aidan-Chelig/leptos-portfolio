@@ -9,6 +9,7 @@
   inputs.crane.inputs.nixpkgs.follows = "nixpkgs";
   inputs.crane.inputs.flake-compat.follows = "";
   inputs.crane.inputs.rust-overlay.follows = "";
+  inputs.std.inputs.nixago.url = "github:nix-community/nixago";
   inputs.std.inputs.devshell.url = "github:numtide/devshell";
 
   inputs.nixpkgs.follows = "fenix/nixpkgs";
