@@ -14,3 +14,4 @@ playwright/.cache/
 
 /.data/
 /.config/
+/.sass-cache/
