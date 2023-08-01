@@ -28,6 +28,7 @@
         # Contribution Environment
         (devshells "shells")
         (pkgs "rust")
+        (nixago "configs")
       ];
     }
     {
