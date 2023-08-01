@@ -76,6 +76,10 @@
           category = "repo tools";
         }
         {
+          package = nixpkgs.gcc;
+          category = "build tools";
+        }
+        {
           package = nixpkgs.alejandra;
           category = "repo tools";
         }
