@@ -16,3 +16,5 @@ playwright/.cache/
 /.config/
 /.cache/
 /.sass-cache/
+/.bin/
+/.run/
