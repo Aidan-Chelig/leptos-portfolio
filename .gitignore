@@ -18,6 +18,7 @@ playwright/.cache/
 /.sass-cache/
 /.bin/
 /.run/
+/.local/
 
 # nixago: ignore-linked-files
 /.prettierrc
