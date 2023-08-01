@@ -13,25 +13,27 @@
 
   inputs.nixpkgs.follows = "fenix/nixpkgs";
 
-  outputs = inputs @ {
-    self,
-    std,
-    ...
-  }:
-    std.growOn {
-      inherit inputs;
-      systems = ["x86_64-linux" "aarch64-linux"];
-      cellsFrom = ./nix;
-      cellBlocks = with std.blockTypes; [
-        (installables "packages")
-        # Contribution Environment
-        (devshells "shells")
-        (pkgs "rust")
-      ];
-    } {
-      devShells = std.harvest self ["repo" "shells"];
-      packages = std.harvest self ["leptos-porfolio" "packages"];
-    };
+  outputs =
+    inputs @ { self
+    , std
+    , ...
+    }:
+    std.growOn
+      {
+        inherit inputs;
+        systems = [ "x86_64-linux" "aarch64-linux" ];
+        cellsFrom = ./nix;
+        cellBlocks = with std.blockTypes; [
+          (installables "packages")
+          # Contribution Environment
+          (devshells "shells")
+          (pkgs "rust")
+        ];
+      }
+      {
+        devShells = std.harvest self [ "repo" "shells" ];
+        packages = std.harvest self [ "leptos-porfolio" "packages" ];
+      };
 
   nixConfig = {
     extra-substituters = [

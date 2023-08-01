@@ -1,7 +1,8 @@
-{
-  inputs,
-  cell,
-}: let
+{ inputs
+, cell
+,
+}:
+let
   inherit (inputs.std) std lib;
   inherit (inputs) nixpkgs;
   inherit (inputs.cells) leptos-portfolio;
@@ -15,11 +16,11 @@
     language.rust = {
       packageSet = cell.rust;
       enableDefaultToolchain = true;
-      tools = ["toolchain"]; # fenix collates them all in a convenience derivation
+      tools = [ "toolchain" ]; # fenix collates them all in a convenience derivation
     };
 
     devshell.startup.link-cargo-home = {
-      deps = [];
+      deps = [ ];
       text = ''
         # ensure CARGO_HOME is populated
         mkdir -p $PRJ_DATA_DIR/cargo
@@ -55,29 +56,35 @@
       "${inputs.std.inputs.devshell}/extra/language/rust.nix"
     ];
 
-    commands = let
-      rustCmds =
-        l.map (name: {
-          inherit name;
-          package = cell.rust.toolchain; # has all bins
-          category = "rust dev";
-          # fenix doesn't include package descriptions, so pull those out of their equivalents in nixpkgs
-          help = nixpkgs.${name}.meta.description;
-        }) [
-          "rustc"
-          "cargo"
-          "rustfmt"
-          "rust-analyzer"
-        ];
-    in
+    commands =
+      let
+        rustCmds =
+          l.map
+            (name: {
+              inherit name;
+              package = cell.rust.toolchain; # has all bins
+              category = "rust dev";
+              # fenix doesn't include package descriptions, so pull those out of their equivalents in nixpkgs
+              help = nixpkgs.${name}.meta.description;
+            }) [
+            "rustc"
+            "cargo"
+            "rustfmt"
+            "rust-analyzer"
+          ];
+      in
       [
         {
           package = nixpkgs.treefmt;
-          category = "repo tools";
+          category = "formatting";
+        }
+        {
+          package = nixpkgs.nixpkgs-fmt;
+          category = "formatting";
         }
         {
           package = nixpkgs.gcc;
-          category = "build tools";
+          category = "build";
         }
         {
           package = nixpkgs.alejandra;
@@ -88,21 +95,22 @@
           category = "std";
         }
         {
-	 package = nixpkgs.cargo-leptos;
-	 category = "repo tools";
+          package = nixpkgs.cargo-leptos;
+          category = "build";
         }
         {
-	 package = nixpkgs.cargo-generate;
-	 category = "repo tools";
+          package = nixpkgs.cargo-generate;
+          category = "build";
         }
-	{
-	 package = nixpkgs.sass;
-	 category = "build tools";
-	}
+        {
+          package = nixpkgs.sass;
+          category = "build";
+        }
       ]
       ++ rustCmds;
   };
-in {
+in
+{
   inherit dev;
   default = dev;
 }
