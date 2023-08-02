@@ -21,4 +21,8 @@ playwright/.cache/
 /.local/
 
 # nixago: ignore-linked-files
+/lefthook.yml
+/treefmt.toml
+/.editorconfig
+/.conform.yaml
 /.prettierrc

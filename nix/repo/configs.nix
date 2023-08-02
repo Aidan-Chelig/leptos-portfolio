@@ -10,27 +10,60 @@
   cell,
 }: let
   inherit (inputs.std) lib;
-in
-  {
-      treefmt = {
+in {
+  editorconfig = {
+    data = {
+      root = true;
+      "*" = {
+        end_of_line = "lf";
+        insert_final_newline = true;
+        trim_trailing_whitespace = true;
+        charset = "utf-8";
+        indent_style = "space";
+        indent_size = 2;
+      };
+
+      "*.{diff,patch}" = {
+        end_of_line = "unset";
+        insert_final_newline = "unset";
+        trim_trailing_whitespace = "unset";
+        indent_size = "unset";
+      };
+
+      "*.md" = {
+        max_line_length = "off";
+        trim_trailing_whitespace = false;
+      };
+
+      "{LICENSES/**,LICENSE}" = {
+        end_of_line = "unset";
+        insert_final_newline = "unset";
+        trim_trailing_whitespace = "unset";
+        charset = "unset";
+        indent_style = "unset";
+        indent_size = "unset";
+      };
+    };
+  };
+
+  treefmt = {
     packages = [
-      inputs.nixfmt.packages.nixfmt
+      inputs.nixpkgs.alejandra
       inputs.nixpkgs.nodePackages.prettier
       inputs.nixpkgs.nodePackages.prettier-plugin-toml
       inputs.nixpkgs.shfmt
     ];
     devshell.startup.prettier-plugin-toml =
       inputs.nixpkgs.lib.stringsWithDeps.noDepEntry
-        ''
-          export NODE_PATH=${inputs.nixpkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:''${NODE_PATH-}
-        ''
-    ;
+      ''
+        export NODE_PATH=${inputs.nixpkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:''${NODE_PATH-}
+      '';
     data = {
       formatter = {
         nix = {
-          command = "nixfmt";
-          includes = [ "*.nix" ];
-          excludes = [ "courses/*" ];
+          command = "alejandra";
+          includes = ["*.nix"];
+          excludes = ["courses/*"];
         };
         prettier = {
           command = "prettier";
@@ -52,7 +85,6 @@ in
             "*.yaml"
             "*.toml"
           ];
-          excludes = [ "courses/*" ];
         };
         shell = {
           command = "shfmt";
@@ -62,31 +94,61 @@ in
             "-s"
             "-w"
           ];
-          excludes = [ "courses/*" ];
-          includes = [ "*.sh" ];
+          includes = ["*.sh"];
         };
         rustfmt = {
           command = "rustfmt";
-          includes = [ "*.rs" ];
+          includes = ["*.rs"];
           options = [
             "--edition"
             "2021"
           ];
-          excludes = [ "courses/*" ];
         };
       };
     };
   };
-    # Prettier is a multi-language code formatter.
-    prettier = lib.dev.mkNixago {
-      # We mainly use it here to format the Markdown in our README.
-      data = {
-        printWidth = 80;
-        proseWrap = "always";
+
+  # Tool Homepage: https://github.com/evilmartians/lefthook
+  lefthook = {
+    data = {
+      commit-msg = {
+        commands = {
+          conform = {
+            # allow WIP, fixup!/squash! commits locally
+            run = ''
+              [[ "$(head -n 1 {1})" =~ ^WIP(:.*)?$|^wip(:.*)?$|fixup\!.*|squash\!.* ]] ||
+              conform enforce --commit-msg-file {1}'';
+            skip = [
+              "merge"
+              "rebase"
+            ];
+          };
+        };
       };
-      output = ".prettierrc";
-      format = "json";
+      pre-commit = {
+        commands = {
+          treefmt = {
+            run = "treefmt --fail-on-change {staged_files}";
+            skip = [
+              "merge"
+              "rebase"
+            ];
+          };
+        };
+      };
     };
-    # Treefmt is an aggregator for source code formatters. Our codebase has
-    # markdown, Nix, and Rust, so we configure a formatter for each.
-  }
+  };
+
+  # Prettier is a multi-language code formatter.
+  prettier = lib.dev.mkNixago {
+    # We mainly use it here to format the Markdown in our README.
+    data = {
+      printWidth = 80;
+      proseWrap = "always";
+    };
+    output = ".prettierrc";
+    format = "json";
+  };
+  # Treefmt is an aggregator for source code formatters. Our codebase has
+  # markdown, Nix, and Rust, so we configure a formatter for each.
+}

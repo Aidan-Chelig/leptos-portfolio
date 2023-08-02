@@ -55,6 +55,19 @@
       "${inputs.std.inputs.devshell}/extra/language/rust.nix"
     ];
 
+    nixago = [
+      # lib.cfg.conform
+      ((lib.dev.mkNixago lib.cfg.conform) {
+        data = {
+          inherit (inputs) cells;
+        };
+      })
+      (lib.dev.mkNixago lib.cfg.treefmt cell.configs.treefmt)
+      (lib.dev.mkNixago lib.cfg.editorconfig cell.configs.editorconfig)
+      #(lib.dev.mkNixago lib.cfg.githubsettings cell.configs.githubsettings)
+      (lib.dev.mkNixago lib.cfg.lefthook cell.configs.lefthook)
+    ];
+
     commands = let
       rustCmds =
         l.map
