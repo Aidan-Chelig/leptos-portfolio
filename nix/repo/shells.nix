@@ -62,10 +62,11 @@
           inherit (inputs) cells;
         };
       })
-      (lib.dev.mkNixago lib.cfg.treefmt cell.configs.treefmt)
-      (lib.dev.mkNixago lib.cfg.editorconfig cell.configs.editorconfig)
+      (cell.configs.treefmt)
+      (cell.configs.prettier)
+      (cell.configs.editorconfig)
       #(lib.dev.mkNixago lib.cfg.githubsettings cell.configs.githubsettings)
-      (lib.dev.mkNixago lib.cfg.lefthook cell.configs.lefthook)
+      (cell.configs.lefthook)
     ];
 
     commands = let
@@ -85,6 +86,10 @@
         ];
     in
       [
+        {
+          package = nixpkgs.binaryen;
+          category = "build";
+        }
         {
           package = nixpkgs.treefmt;
           category = "formatting";
@@ -110,7 +115,7 @@
           category = "build";
         }
         {
-          package = nixpkgs.sass;
+          package = nixpkgs.dart-sass;
           category = "build";
         }
       ]
