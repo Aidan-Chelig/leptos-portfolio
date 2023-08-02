@@ -11,7 +11,10 @@
 }: let
   inherit (inputs.std) lib;
 in {
-  editorconfig = {
+
+
+      editorconfig = (lib.dev.mkNixago lib.cfg.editorconfig 
+{
     data = {
       root = true;
       "*" = {
@@ -44,9 +47,10 @@ in {
         indent_size = "unset";
       };
     };
-  };
+  });
 
-  treefmt = {
+      treefmt = (lib.dev.mkNixago lib.cfg.treefmt 
+{
     packages = [
       inputs.nixpkgs.alejandra
       inputs.nixpkgs.nodePackages.prettier
@@ -106,10 +110,12 @@ in {
         };
       };
     };
-  };
-
+  }
+);
   # Tool Homepage: https://github.com/evilmartians/lefthook
-  lefthook = {
+
+  lefthook = (lib.dev.mkNixago lib.cfg.lefthook 
+{
     data = {
       commit-msg = {
         commands = {
@@ -137,7 +143,8 @@ in {
         };
       };
     };
-  };
+  }
+);
 
   # Prettier is a multi-language code formatter.
   prettier = lib.dev.mkNixago {
