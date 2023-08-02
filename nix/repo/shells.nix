@@ -87,6 +87,10 @@
     in
       [
         {
+          package = nixpkgs.binaryen;
+          category = "build";
+        }
+        {
           package = nixpkgs.treefmt;
           category = "formatting";
         }
@@ -111,7 +115,7 @@
           category = "build";
         }
         {
-          package = nixpkgs.sass;
+          package = nixpkgs.dart-sass;
           category = "build";
         }
       ]
