@@ -1,8 +1,1 @@
-[formatter.nix]
-command = "alejandra"
-includes = ["*.nix"]
-
-[formatter.rust]
-command = "rustfmt"
-options = ["--edition", "2018"]
-includes = ["*.rs"]
+/nix/store/46azbvy417raxf9ad0gnb5czki2kas41-treefmt.toml

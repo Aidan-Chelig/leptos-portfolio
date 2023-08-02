@@ -67,7 +67,6 @@ in {
           nix = {
             command = "alejandra";
             includes = ["*.nix"];
-            excludes = ["courses/*"];
           };
           prettier = {
             command = "prettier";
