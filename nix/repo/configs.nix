@@ -77,7 +77,6 @@ in {
             "*.html"
             "*.js"
             "*.json"
-            "*.jsx"
             "*.md"
             "*.mdx"
             "*.scss"
