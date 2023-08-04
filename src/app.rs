@@ -13,7 +13,7 @@ pub fn App(cx: Scope) -> impl IntoView {
 		<Stylesheet id="leptos" href="/pkg/leptos_start.css"/>
 
 		// sets the document title
-		<Title text="Welcome to Leptos"/>
+		<Title text="Welcome to Leptoss"/>
 
 		// content for this welcome page
 		<Router>
@@ -31,11 +31,11 @@ pub fn App(cx: Scope) -> impl IntoView {
 #[component]
 fn HomePage(cx: Scope) -> impl IntoView {
 	// Creates a reactive value to update the button
-	let (count, set_count) = create_signal(cx, 0);
-	let on_click = move |_| set_count.update(|count| *count += 1);
+	let (count, set_count) = create_signal(cx, 1f64);
+	let on_click = move |_| set_count.update(|count| *count += *count);
 
 	view! { cx,
-		<h1>"Welcome to Leptos!"</h1>
+		<h1>"Welcome to Leptoss!"</h1>
 		<button on:click=on_click>"Click Me: " {count}</button>
 	}
 }

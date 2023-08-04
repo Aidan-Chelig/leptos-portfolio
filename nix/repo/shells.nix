@@ -11,6 +11,7 @@
   dev = lib.dev.mkShell {
     packages = [
       nixpkgs.pkg-config
+      nixpkgs.gcc
     ];
     language.rust = {
       packageSet = cell.rust;
@@ -24,6 +25,7 @@
         # ensure CARGO_HOME is populated
         mkdir -p $PRJ_DATA_DIR/cargo
         ln -snf -t $PRJ_DATA_DIR/cargo $(ls -d ${cell.rust.toolchain}/*)
+
       '';
     };
 
@@ -93,10 +95,6 @@
         {
           package = nixpkgs.treefmt;
           category = "formatting";
-        }
-        {
-          package = nixpkgs.gcc;
-          category = "build";
         }
         {
           package = nixpkgs.alejandra;
