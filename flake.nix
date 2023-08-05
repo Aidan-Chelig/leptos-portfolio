@@ -41,6 +41,7 @@
         (nixago "configs")
         (devshells "shells")
         (runnables "operables")
+        (runnables "generate")
         (containers "containers")
       ];
     }
