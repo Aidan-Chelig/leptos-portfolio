@@ -7,6 +7,7 @@
     std.url = "github:divnix/std";
     std.inputs.devshell.follows = "devshell";
     std.inputs.nixago.follows = "nixago";
+    std.inputs.n2c.follows = "n2c";
   };
   inputs.devshell.url = "github:numtide/devshell";
   inputs.nixago.url = "github:nix-community/nixago";
@@ -15,7 +16,7 @@
   inputs.nixfmt.url = "github:serokell/nixfmt/?ref=refs/pull/118/head";
   inputs.nixfmt.inputs.nixpkgs.follows = "nixpkgs";
   inputs.call-flake.url = "github:divnix/call-flake";
-  inputs.std.inputs.n2c.url = "github:nlewo/nix2container";
+  inputs.n2c.url = "github:nlewo/nix2container";
 
   inputs.fenix.url = "github:nix-community/fenix";
   inputs.crane.url = "github:ipetkov/crane";
