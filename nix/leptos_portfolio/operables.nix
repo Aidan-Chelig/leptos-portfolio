@@ -11,6 +11,8 @@ in {
   leptos-porfolio = std.lib.ops.mkOperable {
     inherit package;
 
+    meta.mainProgram = package;
+
     runtimeEnv = {
       LEPTOS_OUTPUT_NAME = "leptos_portfolio";
       LEPTOS_SITE_ROOT = "${package}/usr/share/site";
@@ -24,7 +26,7 @@ in {
     ];
 
     runtimeScript = ''
-      ${package}/bin/leptos-site
+      ${package}/bin/leptos_portfolio
     '';
   };
 }

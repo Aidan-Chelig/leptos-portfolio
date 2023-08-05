@@ -39,7 +39,7 @@
         # Contribution Environment
         (nixago "configs")
         (devshells "shells")
-        (functions "operables")
+        (runnables "operables")
         (containers "containers")
       ];
     }
