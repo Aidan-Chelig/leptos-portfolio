@@ -6,9 +6,13 @@
   l = nixpkgs.lib // builtins;
 
   name = "leptos_portfolio";
-  operable = cell.operables.leptos-porfolio;
+  operable = cell.operables.leptos_porfolio;
 in {
-  leptos-porfolio = std.lib.ops.mkStandardOCI {
+  leptos_porfolio = std.lib.ops.mkStandardOCI {
     inherit name operable;
+  };
+  leptos_porfolio-debug = std.lib.ops.mkStandardOCI {
+    inherit name operable;
+    debug = true;
   };
 }

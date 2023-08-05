@@ -8,7 +8,7 @@
 
   package = cell.packages.default;
 in {
-  leptos-porfolio = std.lib.ops.mkOperable {
+  leptos_porfolio = std.lib.ops.mkOperable {
     inherit package;
 
     meta.mainProgram = package;
