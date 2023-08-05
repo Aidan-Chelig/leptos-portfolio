@@ -25,7 +25,7 @@
       cargoExtraArgs = "--profile release";
     });
 
-  leptos-portfolio = crane.buildPackage (commonArgs
+  leptos_portfolio = crane.buildPackage (commonArgs
     // rec {
       nativeBuildInputs = leptosNativeBuildInputs;
       cargoBuildCommand = "cargo leptos --log wasm --log server build";
@@ -33,7 +33,7 @@
       installPhaseCommand = ''
         mkdir -p $out/bin;
         mkdir -p $out/usr/share;
-        mv ./target/server/release/leptos_start $out/bin/
+        mv ./target/server/release/leptos_portfolio $out/bin/
         mv ./target/site/ $out/usr/share/
       '';
       doCheck = false;
@@ -47,5 +47,5 @@
 in {
   #sane default for a binary package
 
-  default = leptos-portfolio;
+  default = leptos_portfolio;
 }

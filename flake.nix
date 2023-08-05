@@ -45,7 +45,7 @@
     }
     {
       devShells = std.harvest self ["repo" "shells"];
-      packages = std.harvest self ["leptos-porfolio" "packages"];
+      packages = std.harvest self ["leptos_porfolio" "packages"];
     };
 
   nixConfig = {

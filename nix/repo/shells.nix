@@ -4,7 +4,7 @@
 }: let
   inherit (inputs.std) std lib;
   inherit (inputs) nixpkgs;
-  inherit (inputs.cells) leptos-portfolio;
+  inherit (inputs.cells) leptos_portfolio;
 
   l = nixpkgs.lib // builtins;
 
@@ -50,7 +50,7 @@
       }
       {
         name = "PKG_CONFIG_PATH";
-        value = l.makeSearchPath "lib/pkgconfig" leptos-portfolio.packages.default.buildInputs;
+        value = l.makeSearchPath "lib/pkgconfig" leptos_portfolio.packages.default.buildInputs;
       }
     ];
     imports = [

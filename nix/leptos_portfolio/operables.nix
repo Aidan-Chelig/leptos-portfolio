@@ -12,7 +12,7 @@ in {
     inherit package;
 
     runtimeEnv = {
-      LEPTOS_OUTPUT_NAME = "leptos_start";
+      LEPTOS_OUTPUT_NAME = "leptos_portfolio";
       LEPTOS_SITE_ROOT = "${package}/usr/share/site";
       LEPTOS_SITE_PKG_DIR = "pkg";
       LEPTOS_SITE_ADDR = "127.0.0.1:3000";
