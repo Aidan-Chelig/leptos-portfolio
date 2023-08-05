@@ -20,10 +20,13 @@
     ];
   };
 
-  cargoArtifacts = crane.buildDepsOnly (commonArgs
-    // {
-      cargoExtraArgs = "--all-features --profile release";
-    });
+  name = crane.crateNameFromCargoToml {cargoToml = "${self}/Cargo.toml";};
+
+  #cargoArtifacts = crane.buildDepsOnly (commonArgs
+  #  // {
+  #    buildPhaseCargoCommand = '' cargo build --package=crane-dummy --bin=leptos_start --target-dir=target/server --no-default-features --features=ssr --release;
+  #                                cargo build --package=crane-dummy --lib --target-dir=target/front --target=wasm32-unknown-unknown --no-default-features --features=hydrate --profile=wasm-release'';
+  #  });
 
   leptos-portfolio = crane.buildPackage (commonArgs
     // rec {
@@ -40,7 +43,7 @@
       buildPhaseCargoCommand = "${cargoBuildCommand} ${cargoExtraArgs}";
     }
     // {
-      inherit cargoArtifacts;
+      #inherit cargoArtifacts;
     });
 
   crane = inputs.crane.lib.overrideToolchain cells.repo.rust.toolchain;
