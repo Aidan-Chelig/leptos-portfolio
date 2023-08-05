@@ -20,6 +20,7 @@ playwright/.cache/
 /.bin/
 /.run/
 /.local/
+/result/
 
 # nixago: ignore-linked-files
 /lefthook.yml
