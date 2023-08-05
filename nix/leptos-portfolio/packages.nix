@@ -42,7 +42,7 @@
       buildPhaseCargoCommand = "${cargoBuildCommand} ${cargoExtraArgs}";
     }
     // {
-      inherit cargoArtifacts;
+      #inherit cargoArtifacts;
     });
 
   crane = inputs.crane.lib.overrideToolchain cells.repo.rust.toolchain;
