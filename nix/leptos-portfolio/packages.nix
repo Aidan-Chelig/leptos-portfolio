@@ -22,7 +22,7 @@
 
   cargoArtifacts = crane.buildDepsOnly (commonArgs
     // {
-      cargoExtraArgs = "--all-features --profile release";
+      cargoExtraArgs = "--profile release";
     });
 
   leptos-portfolio = crane.buildPackage (commonArgs
