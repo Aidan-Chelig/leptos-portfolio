@@ -20,12 +20,10 @@
     ];
   };
 
-  # i cant build the dependencies because of how leptos is setup. i'll have to think of a solution.
-  # maybe 2 derivations one for front and one for server then merge them?
-  # cargoArtifacts = crane.buildDepsOnly (commonArgs
-  # // {
-  # cargoExtraArgs = "--all-features --profile release --features=ssr";
-  # });
+  cargoArtifacts = crane.buildDepsOnly (commonArgs
+    // {
+      cargoExtraArgs = "--all-features --profile release";
+    });
 
   leptos-portfolio = crane.buildPackage (commonArgs
     // rec {
@@ -42,7 +40,7 @@
       buildPhaseCargoCommand = "${cargoBuildCommand} ${cargoExtraArgs}";
     }
     // {
-      #inherit cargoArtifacts;
+      inherit cargoArtifacts;
     });
 
   crane = inputs.crane.lib.overrideToolchain cells.repo.rust.toolchain;
