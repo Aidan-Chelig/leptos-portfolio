@@ -41,13 +41,13 @@
         (nixago "configs")
         (devshells "shells")
         (runnables "operables")
-        (runnables "generate")
+        (installables "generate")
         (containers "containers")
       ];
     }
     {
       devShells = std.harvest self ["repo" "shells"];
-      packages = std.harvest self ["leptos_porfolio" "packages"];
+      packages = std.harvest self ["leptos_porfolio" "packages" "repo" "generate"];
       containers = std.harvest self ["leptos_portfolio" "containers"];
     };
 

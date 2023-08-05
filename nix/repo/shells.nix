@@ -12,6 +12,7 @@
     packages = [
       nixpkgs.pkg-config
       nixpkgs.gcc
+      #cell.generate.generate
     ];
     language.rust = {
       packageSet = cell.rust;
