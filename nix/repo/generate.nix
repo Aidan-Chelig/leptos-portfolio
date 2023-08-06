@@ -47,39 +47,43 @@
     };
   };
 in {
-  generate = std.lib.ops.writeScript {
-    name = "generate";
-    text = ''
-      if GPATH=$(git rev-parse --show-toplevel --quiet 2>/dev/null); then
-        cd "$GPATH";
-      else
-        echo "Not a valid Git repository, exiting"
-        exit
-      fi
-
-      if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]
-      then
-        echo "usage: generate <template-name> <template-args>";
-        printf "available templates:\n\n"
-        echo "${l.concatMapStringsSep "\n" (x: "${x.usage}\n${x.description}\n") (l.attrValues templates)}"
-      fi
-
-      if [ $# -gt 0 ]
-      then
-
-      ${l.concatMapStringsSep "\n" (x: ''
-        if [ "$1" = "${x.template-name}" ]
-        then
-          shift;
-          ${x.generate}
-          ${x.postGenerate}
+  generate =
+    std.lib.ops.writeScript {
+      name = "generate";
+      text = ''
+        if GPATH=$(git rev-parse --show-toplevel --quiet 2>/dev/null); then
+          cd "$GPATH";
+        else
+          echo "Not a valid Git repository, exiting"
+          exit
         fi
-      '') (l.attrValues templates)}
 
-        shift;
-        echo "$@";
-      fi
-    '';
-  };
+        if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]
+        then
+          echo "usage: generate <template-name> <template-args>";
+          printf "available templates:\n\n"
+          echo "${l.concatMapStringsSep "\n" (x: "${x.usage}\n${x.description}\n") (l.attrValues templates)}"
+        fi
+
+        if [ $# -gt 0 ]
+        then
+
+        ${l.concatMapStringsSep "\n" (x: ''
+          if [ "$1" = "${x.template-name}" ]
+          then
+            shift;
+            ${x.generate}
+            ${x.postGenerate}
+          fi
+        '') (l.attrValues templates)}
+
+          shift;
+          echo "$@";
+        fi
+      '';
+    }
+    // {
+      meta.description = "A quick templating solution using nix and sed";
+    };
   # ${l.concatStringsSep "\n" (l.map (x: "${x}/bin/${x.name}") (l.attrValues templates))}
 }

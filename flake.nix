@@ -47,7 +47,7 @@
     }
     {
       devShells = std.harvest self ["repo" "shells"];
-      packages = std.harvest self ["leptos_porfolio" "packages" "repo" "generate"];
+      packages = std.harvest self ["leptos_porfolio" "packages"];
       containers = std.harvest self ["leptos_portfolio" "containers"];
     };
 

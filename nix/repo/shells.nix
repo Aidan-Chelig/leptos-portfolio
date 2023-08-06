@@ -12,7 +12,9 @@
     packages = [
       nixpkgs.pkg-config
       nixpkgs.gcc
-      #cell.generate.generate
+      nixpkgs.dart-sass
+      nixpkgs.cargo-generate
+      nixpkgs.binaryen
     ];
     language.rust = {
       packageSet = cell.rust;
@@ -71,7 +73,6 @@
       #(lib.dev.mkNixago lib.cfg.githubsettings cell.configs.githubsettings)
       (cell.configs.lefthook)
     ];
-
     commands = let
       rustCmds =
         l.map
@@ -90,8 +91,8 @@
     in
       [
         {
-          package = nixpkgs.binaryen;
-          category = "build";
+          package = cell.generate.generate;
+          category = "build commands";
         }
         {
           package = nixpkgs.treefmt;
@@ -99,23 +100,15 @@
         }
         {
           package = nixpkgs.alejandra;
-          category = "repo tools";
+          category = "formatting";
         }
         {
           package = std.cli.default;
-          category = "std";
+          category = "build commands";
         }
         {
           package = nixpkgs.cargo-leptos;
-          category = "build";
-        }
-        {
-          package = nixpkgs.cargo-generate;
-          category = "build";
-        }
-        {
-          package = nixpkgs.dart-sass;
-          category = "build";
+          category = "build commands";
         }
       ]
       ++ rustCmds;
