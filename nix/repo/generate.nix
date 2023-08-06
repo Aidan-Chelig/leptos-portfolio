@@ -21,7 +21,7 @@
         PAGENAME = 1;
       };
 
-      schema = l.readFile ./templates/page.php;
+      schema = l.writeFile "page.php" (l.readFile ./templates/page.php);
 
       preGenerate = ''
         # Uppercase the first letter of the page name to fit leptos naming convention.
