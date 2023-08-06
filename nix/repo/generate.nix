@@ -32,16 +32,16 @@
 
       postGenerate = ''
         LC=$(echo "$1" | tr '[:upper:]' '[:lower:]')
-        if [ -e src/app/pages/"$LC".rs ]
-        then
-          echo "The page $1 already exists, remove it or try a different name."
-          exit
-        fi
-        mkdir -p src/app/pages/
-        echo "$OUT" > src/app/pages/"$LC".rs
-        echo "
-        mod $LC;
-        pub use $LC::$1;" >> src/app/pages/mod.rs
+          if [ -e src/app/pages/"$LC".rs ]
+          then
+            echo "The page $1 already exists, remove it or try a different name."
+            exit
+          fi
+          mkdir -p src/app/pages/
+          echo "$OUT" > src/app/pages/"$LC".rs
+          echo "
+          mod $LC;
+          pub use $LC::$1;" >> src/app/pages/mod.rs
       '';
     };
   };
@@ -62,30 +62,34 @@ in {
         then
           echo "usage: generate <template-name> <template-args>";
           printf "available templates:\n\n"
-          echo "${l.concatMapStringsSep "\n" (x: "${x.usage}\n${x.description}\n") (l.attrValues templates)}"
+          ### Print template usage and description
+          echo "${l.concatMapStringsSep "\\n" (x: "${x.usage}\n${x.description}\n") (l.attrValues templates)}"
         fi
 
-        if [ $# -gt 0 ]
+        ###
+        if ! [ $# -gt 0 ]
         then
+          exit
+        fi
 
         ${l.concatMapStringsSep "\n" (x: ''
           if [ "$1" = "${x.template-name}" ]
           then
             shift;
+            ### preGenerate Phase
             ${x.preGenerate}
+
+            ### generate Phase
             ${x.generate}
+
+            ### postGenerate Phase
             ${x.postGenerate}
             exit
           fi
         '') (l.attrValues templates)}
-
-          shift;
-          echo "$@";
-        fi
       '';
     }
     // {
-      meta.description = "A quick templating solution using nix and sed";
+      meta.description = "A quick templating solution using nix and php, its better then it sounds.";
     };
-  # ${l.concatStringsSep "\n" (l.map (x: "${x}/bin/${x.name}") (l.attrValues templates))}
 }
