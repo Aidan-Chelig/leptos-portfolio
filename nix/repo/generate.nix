@@ -21,20 +21,22 @@
         PAGENAME = 1;
       };
 
-      schema = l.toFile template-name ''
-        <?php
-        $pagename = $argv[1];
-        ?>
-        use leptos::*;
+      schema = l.readFile ./templates/page.php;
 
-        #[component]
-        pub fn <?php echo $pagename; ?>(cx: Scope) -> impl IntoView {
-        	// creates a reactive value to update the button
-        	view! { cx,
-        		<h1>"<?php echo $pagename; ?>"</h1>
-        	}
-        }
-      '';
+      #      schema = l.toFile template-name ''
+      #        <?php
+      #        $pagename = $argv[1];
+      #        ?>
+      #        use leptos::*;
+      #
+      #        #[component]
+      #        pub fn <?php echo $pagename; ?>(cx: Scope) -> impl IntoView {
+      #        	// creates a reactive value to update the button
+      #        	view! { cx,
+      #        		<h1>"<?php echo $pagename; ?>"</h1>
+      #        	}
+      #        }
+      #      '';
 
       preGenerate = ''
         # Uppercase the first letter of the page name to fit leptos naming convention.
