@@ -37,7 +37,8 @@
       '';
 
       preGenerate = ''
-        set -- "''${1^}"
+        # Uppercase the first letter of the page name to fit leptos naming convention.
+          set -- "''${1^}"
       '';
 
       generate = phpReplacement schema;
