@@ -7,8 +7,7 @@
 
   l = nixpkgs.lib // builtins;
 
-  #sedReplacement = schema : args : ''OUT=$(sed -e "s/PAGENAME/%PAGENAME/g" ${schema})'';
-  #sedReplacement = schema : args : ''OUT=$(sed ${l.concatMapStringsSep " " (x: "-e \"s/${args}/\$${x.arg}/g\"") (args)} ${schema})'';
+  # Creates a sed command to replace all instances of your args name with the corrisponding bash argument number eg s/PAGENAME/$1/g
   sedReplacement = schema: args: ''OUT=$(sed ${l.concatMapStringsSep " " (x: "-e \"s/${x}/\$${l.toString (l.getAttr x args)}/g\"") (l.attrNames args)} ${schema})'';
 
   templates = {
@@ -23,15 +22,10 @@
 
       schema = l.toFile template-name ''
         use leptos::*;
-        use leptos_meta::*;
-
 
         #[component]
         fn PAGENAME(cx: Scope) -> impl IntoView {
         	// Creates a reactive value to update the button
-        	let (count, set_count) = create_signal(cx, 1f64);
-        	let on_click = move |_| set_count.update(|count| *count += *count - 2.);
-
         	view! { cx,
         		<h1>"PAGENAME"</h1>
         	}
@@ -41,8 +35,8 @@
       generate = sedReplacement schema args;
 
       postGenerate = ''
-        mkdir src/pages/
-        echo "$OUT" > src/pages/"$1"
+        mkdir -p src/app/pages/
+        echo "$OUT" > src/app/pages/"$1"
       '';
     };
   };
