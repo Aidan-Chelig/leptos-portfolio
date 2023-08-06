@@ -9,6 +9,7 @@
 
   # Creates a sed command to replace all instances of your args name with the corrisponding bash argument number eg s/PAGENAME/$1/g
   sedReplacement = schema: args: ''OUT=$(sed ${l.concatMapStringsSep " " (x: "-e \"s/${x}/\$${l.toString (l.getAttr x args)}/g\"") (l.attrNames args)} ${schema})'';
+  phpReplacement = schema: ''OUT=$(php ${schema} "$@")'';
 
   templates = {
     page = rec {
@@ -21,28 +22,45 @@
       };
 
       schema = l.toFile template-name ''
+        <?php
+        $pagename = $argv[1];
+        ?>
         use leptos::*;
 
         #[component]
-        fn PAGENAME(cx: Scope) -> impl IntoView {
-        	// Creates a reactive value to update the button
+        pub fn <?php echo $pagename; ?>(cx: Scope) -> impl IntoView {
+        	// creates a reactive value to update the button
         	view! { cx,
-        		<h1>"PAGENAME"</h1>
+        		<h1>"<?php echo $pagename; ?>"</h1>
         	}
         }
       '';
 
-      generate = sedReplacement schema args;
+      preGenerate = ''
+        set -- "''${1^}"
+      '';
+
+      generate = phpReplacement schema;
 
       postGenerate = ''
+        LC=$(echo "$1" | tr '[:upper:]' '[:lower:]')
+        if [ -e src/app/pages/"$LC".rs ]
+        then
+          echo "The page $1 already exists, remove it or try a different name."
+          exit
+        fi
         mkdir -p src/app/pages/
-        echo "$OUT" > src/app/pages/"$1"
+        echo "$OUT" > src/app/pages/"$LC".rs
+        echo "
+        mod $LC;
+        pub use $LC::$1;" >> src/app/pages/mod.rs
       '';
     };
   };
 in {
   generate =
     std.lib.ops.writeScript {
+      runtimeInputs = [nixpkgs.php];
       name = "generate";
       text = ''
         if GPATH=$(git rev-parse --show-toplevel --quiet 2>/dev/null); then
@@ -66,8 +84,10 @@ in {
           if [ "$1" = "${x.template-name}" ]
           then
             shift;
+            ${x.preGenerate}
             ${x.generate}
             ${x.postGenerate}
+            exit
           fi
         '') (l.attrValues templates)}
 
