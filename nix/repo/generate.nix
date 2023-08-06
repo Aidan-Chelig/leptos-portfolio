@@ -8,7 +8,7 @@
   l = nixpkgs.lib // builtins;
 
   # Creates a sed command to replace all instances of your args name with the corrisponding bash argument number eg s/PAGENAME/$1/g
-  sedReplacement = schema: args: ''OUT=$(sed ${l.concatMapStringsSep " " (x: "-e \"s/${x}/\$${l.toString (l.getAttr x args)}/g\"") (l.attrNames args)} ${schema})'';
+  #sedReplacement = schema: args: ''OUT=$(sed ${l.concatMapStringsSep " " (x: "-e \"s/${x}/\$${l.toString (l.getAttr x args)}/g\"") (l.attrNames args)} ${schema})'';
   phpReplacement = schema: ''OUT=$(php ${schema} "$@")'';
 
   templates = {
@@ -21,7 +21,7 @@
         PAGENAME = 1;
       };
 
-      schema = l.writeFile "page.php" (l.readFile ./templates/page.php);
+      schema = l.toFile "${template-name}-schema" (l.readFile ./templates/page.php);
 
       preGenerate = ''
         # Uppercase the first letter of the page name to fit leptos naming convention.
