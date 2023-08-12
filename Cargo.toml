@@ -12,7 +12,7 @@ actix-web = { version = "4", optional = true, features = ["macros"] }
 console_error_panic_hook = "0.1"
 cfg-if = "1"
 http = { version = "0.2", optional = true }
-leptos = { version = "0.4", features = ["nightly"] }
+leptos = { version = "0.4", features = ["csr", "nightly"] }
 leptos_meta = { version = "0.4", features = ["nightly"] }
 leptos_actix = { version = "0.4", optional = true }
 leptos_router = { version = "0.4", features = ["nightly"] }
@@ -40,7 +40,7 @@ panic = "abort"
 
 [package.metadata.leptos]
 # The name used by wasm-bindgen/cargo-leptos for the JS/WASM bundle. Defaults to the crate name   
-output-name = "leptos_portfolio"
+output-name = "leptos_portfolio_front"
 # The site root folder is where cargo-leptos generate all output. WARNING: all content of this folder will be erased on a rebuild. Use it in your server setup.
 site-root = "target/site"
 # The site-root relative folder where all compiled output (JS, WASM and CSS) is written

@@ -71,8 +71,6 @@ in {
           prettier = {
             command = "prettier";
             options = [
-              "--plugin"
-              "prettier-plugin-toml"
               "--write"
             ];
             includes = [
@@ -86,7 +84,6 @@ in {
               "*.scss"
               "*.ts"
               "*.yaml"
-              "*.toml"
             ];
           };
           shell = {
@@ -134,7 +131,7 @@ in {
         pre-commit = {
           commands = {
             treefmt = {
-              run = "treefmt {staged_files}";
+              run = "treefmt --fail-on-change {staged_files}";
               skip = [
                 "merge"
                 "rebase"

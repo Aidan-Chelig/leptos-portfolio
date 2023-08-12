@@ -15,6 +15,7 @@
       nixpkgs.dart-sass
       nixpkgs.cargo-generate
       nixpkgs.binaryen
+      nixpkgs.trunk
     ];
     language.rust = {
       packageSet = cell.rust;
