@@ -4,6 +4,9 @@ use leptos::*;
 pub fn HomePage(cx: Scope) -> impl IntoView {
 	// creates a reactive value to update the button
 	view! { cx,
-		<h1>"Homesdasdsadasdasdsd"</h1>
+		<h1>"home"</h1>
+		<div class="">
+
+		</div>
 	}
 }
