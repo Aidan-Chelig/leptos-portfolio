@@ -53,7 +53,7 @@
       }
       {
         name = "PKG_CONFIG_PATH";
-        value = l.makeSearchPath "lib/pkgconfig" leptos_portfolio.packages.default.buildInputs;
+        value = l.makeSearchPath "lib/pkgconfig" (leptos_portfolio.packages.default.buildInputs ++ ["${nixpkgs.openssl.dev}/lib/pkgconfig"]);
       }
     ];
     imports = [

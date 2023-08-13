@@ -8,6 +8,8 @@
     cargo-leptos
     binaryen
     dart-sass
+    openssl
+    pkg-config
   ];
 
   commonArgs = {
