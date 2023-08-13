@@ -51,9 +51,13 @@
         # https://github.com/rust-lang/rust-analyzer/blob/7f1234492e3164f9688027278df7e915bc1d919c/crates/project-model/src/sysroot.rs#L196-L211
         value = "${cell.rust.toolchain}/lib/rustlib/src/rust/library";
       }
+      #      {
+      #        name = "PKG_CONFIG_PATH";
+      #        value = l.makeSearchPath "lib/pkgconfig" leptos_portfolio.packages.default.buildInputs;
+      #      }
       {
         name = "PKG_CONFIG_PATH";
-        value = l.makeSearchPath "lib/pkgconfig" (leptos_portfolio.packages.default.buildInputs ++ ["${nixpkgs.openssl.dev}/lib/pkgconfig"]);
+        value = "${nixpkgs.openssl.dev}/lib/pkgconfig";
       }
     ];
     imports = [

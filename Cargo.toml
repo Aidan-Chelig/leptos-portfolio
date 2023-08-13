@@ -1,4 +1,5 @@
 [workspace]
+resolver = "2"
 members = ["project1/app", "project1/front", "project1/server"]
 
 # need to be applied only to wasm build
@@ -21,7 +22,7 @@ leptos_actix = { version = "0.3" }
 # A leptos project defines which workspace members
 # that are used together frontend (lib) & server (bin)
 [[workspace.metadata.leptos]]
-name = "package1"
+name = "project1"
 bin-package = "server-package"
 lib-package = "front-package"
 assets-dir = "project1/assets"
