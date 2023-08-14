@@ -73,5 +73,6 @@ in {
   #sane default for a binary package
 
   default = leptos_portfolio_ssr;
+  leptos_portfolio_ssr = leptos_portfolio_ssr;
   leptos_portfolio_csr = leptos_portfolio_csr;
 }
