@@ -15,6 +15,7 @@
       nixpkgs.dart-sass
       nixpkgs.cargo-generate
       nixpkgs.binaryen
+      nixpkgs.trunk
     ];
     language.rust = {
       packageSet = cell.rust;
@@ -96,7 +97,15 @@
       [
         {
           package = cell.generate.generate;
-          category = "build commands";
+          category = "build tools";
+        }
+        {
+          package = nixpkgs.trunk;
+          category = "build tools";
+        }
+        {
+          package = nixpkgs.miniserve;
+          category = "dev tools";
         }
         {
           package = nixpkgs.treefmt;
@@ -108,11 +117,11 @@
         }
         {
           package = std.cli.default;
-          category = "build commands";
+          category = "dev tools";
         }
         {
           package = nixpkgs.cargo-leptos;
-          category = "build commands";
+          category = "build tools";
         }
       ]
       ++ rustCmds;
