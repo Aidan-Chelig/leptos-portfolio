@@ -65,6 +65,7 @@
       pname = "leptos_portfolio_csr";
       cargoArtifacts = cargoArtifactsWasm;
       trunkIndexPath = "index.html";
+      trunkExtraBuildArgs = "--features csr";
     });
 
   crane = inputs.crane.lib.overrideToolchain cells.repo.rust.toolchain;
