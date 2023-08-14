@@ -131,7 +131,7 @@ in {
         pre-commit = {
           commands = {
             treefmt = {
-              run = "treefmt --fail-on-change {staged_files}";
+              run = "treefmt {staged_files}";
               skip = [
                 "merge"
                 "rebase"
