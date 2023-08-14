@@ -4,8 +4,6 @@
 }: let
   inherit (inputs) std self cells nixpkgs;
 
-  l = nixpkgs.lib // builtins;
-
   leptosNativeBuildInputs = with nixpkgs; [
     cargo-leptos
     binaryen
@@ -15,18 +13,14 @@
   ];
 
   commonArgs = {
-    src = lib.cleanSourceWith {
-      src = ./.; # The original, unfiltered source
-      filter = path: type:
-        (l.hasSuffix "\.html" path)
-        || (l.hasSuffix "\.scss" path)
-        ||
-        # Example of a folder for images, icons, etc
-        (l.hasInfix "/assets/" path)
-        ||
-        # Default filter from crane (allow .rs files)
-        (crane.filterCargoSources path type);
-    };
+    src = std.incl self [
+      "${self}/Cargo.lock"
+      "${self}/Cargo.toml"
+      "${self}/src"
+      "${self}/assets"
+      "${self}/style"
+      "${self}/index.html"
+    ];
   };
 
   # TODO  get this working!!!!
