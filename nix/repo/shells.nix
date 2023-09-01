@@ -23,6 +23,16 @@
       tools = ["toolchain"]; # fenix collates them all in a convenience derivation
     };
 
+    devshell.startup.postgres-setup = {
+      deps = [];
+      text = ''
+        mkdir -p ./.db/pgsql
+        if [ -z "$(ls -A ./.db/pgsql)" ]; then
+          initdb ./.db/pgsql --locale=C
+        fi
+      '';
+    };
+
     devshell.startup.link-cargo-home = {
       deps = [];
       text = ''
@@ -59,6 +69,14 @@
       {
         name = "PKG_CONFIG_PATH";
         value = "${nixpkgs.openssl.dev}/lib/pkgconfig";
+      }
+      {
+        name = "LC_ALL";
+        value = "en_US.UTF-8";
+      }
+      {
+        name = "LC_CTYPE";
+        value = "en_US.UTF-8";
       }
     ];
     imports = [
@@ -122,6 +140,14 @@
         {
           package = nixpkgs.cargo-leptos;
           category = "build tools";
+        }
+        {
+          package = nixpkgs.postgresql;
+          category = "database";
+        }
+        {
+          package = nixpkgs.redis;
+          category = "database";
         }
       ]
       ++ rustCmds;

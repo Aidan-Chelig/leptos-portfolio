@@ -25,7 +25,7 @@
   "updateRemoteUserUID": false,
 
   // build development environment on creation, make sure you already have shell.nix
-  "onCreateCommand": "ls -al",
+  "onCreateCommand": "echo \"Done building nix environment\"",
 
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
