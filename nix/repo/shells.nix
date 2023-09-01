@@ -105,10 +105,10 @@
         ];
     in
       [
-         {
-           package = cell.generate.generate;
-           category = "build tools";
-         }
+        {
+          package = cell.generate.generate;
+          category = "build tools";
+        }
         {
           package = nixpkgs.trunk;
           category = "build tools";
