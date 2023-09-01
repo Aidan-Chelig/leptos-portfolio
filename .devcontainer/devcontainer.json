@@ -6,20 +6,18 @@
     "args": {
       "USER_UID": "${localEnv:USER_UID}",
       "USER_GID": "${localEnv:USER_GID}"
-    },
+    }
   },
 
   // run arguments passed to docker
-  "runArgs": [
-    "--security-opt", "label=disable"
-  ],
+  "runArgs": ["--security-opt", "label=disable"],
 
   "containerEnv": {
-     // extensions to preload before other extensions
+    // extensions to preload before other extensions
     "PRELOAD_EXTENSIONS": "arrterian.nix-env-selector"
   },
 
-   // disable command overriding and updating remote user ID
+  // disable command overriding and updating remote user ID
   "overrideCommand": false,
   "userEnvProbe": "loginShell",
   "updateRemoteUserUID": false,
@@ -30,7 +28,7 @@
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
     // select nix environment
-    "arrterian.nix-env-selector",
+    "arrterian.nix-env-selector"
 
     // extra extensions
     //"fsevenm.run-it-on",
@@ -39,7 +37,7 @@
   ],
 
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
-  "forwardPorts": [3000],
+  "forwardPorts": [3000]
 
   // Use 'postCreateCommand' to run commands after the container is created.
   // "postCreateCommand": "go version",
