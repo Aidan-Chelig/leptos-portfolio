@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-pg_ctl -D ./.db/pgsql -l ./.db/pgsql.log -o "--unix_socket_directories='$PWD'" start
+pg_ctl -D ./.db/pgsql -l ./.db/pgsql.log -o "--unix_socket_directories=/tmp/" start

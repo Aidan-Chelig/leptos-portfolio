@@ -16,6 +16,7 @@
       nixpkgs.cargo-generate
       nixpkgs.binaryen
       nixpkgs.trunk
+      nixpkgs.rnix-lsp
     ];
     language.rust = {
       packageSet = cell.rust;
@@ -139,6 +140,10 @@
         }
         {
           package = nixpkgs.redis;
+          category = "database";
+        }
+        {
+          package = nixpkgs.gobang;
           category = "database";
         }
       ]

@@ -54,14 +54,14 @@ in {
       packages = [
         inputs.nixpkgs.alejandra
         inputs.nixpkgs.nodePackages.prettier
-        inputs.nixpkgs.nodePackages.prettier-plugin-toml
+        #inputs.nixpkgs.nodePackages.prettier-plugin-toml
         inputs.nixpkgs.shfmt
       ];
-      devshell.startup.prettier-plugin-toml =
-        inputs.nixpkgs.lib.stringsWithDeps.noDepEntry
-        ''
-          export NODE_PATH=${inputs.nixpkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:''${NODE_PATH-}
-        '';
+      # devshell.startup.prettier-plugin-toml =
+      #   inputs.nixpkgs.lib.stringsWithDeps.noDepEntry
+      #   ''
+      #     export NODE_PATH=${inputs.nixpkgs.nodePackages.prettier-plugin-toml}/lib/node_modules:''${NODE_PATH-}
+      #   '';
       data = {
         formatter = {
           nix = {
@@ -96,14 +96,14 @@ in {
             ];
             includes = ["*.sh"];
           };
-          rustfmt = {
-            command = "rustfmt";
-            includes = ["*.rs"];
-            options = [
-              "--edition"
-              "2021"
-            ];
-          };
+          #  rustfmt = {
+          #    command = "rustfmt";
+          #    includes = ["*.rs"];
+          #    options = [
+          #      "--edition"
+          #      "2021"
+          #    ];
+          #};
         };
       };
     }
