@@ -70,14 +70,6 @@
         name = "PKG_CONFIG_PATH";
         value = "${nixpkgs.openssl.dev}/lib/pkgconfig";
       }
-      {
-        name = "LC_ALL";
-        value = "en_US.UTF-8";
-      }
-      {
-        name = "LC_CTYPE";
-        value = "en_US.UTF-8";
-      }
     ];
     imports = [
       "${inputs.std.inputs.devshell}/extra/language/rust.nix"
@@ -113,10 +105,10 @@
         ];
     in
       [
-        # {
-        #   package = cell.generate.generate;
-        #   category = "build tools";
-        # }
+         {
+           package = cell.generate.generate;
+           category = "build tools";
+         }
         {
           package = nixpkgs.trunk;
           category = "build tools";
