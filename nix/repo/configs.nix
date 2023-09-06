@@ -96,14 +96,14 @@ in {
             ];
             includes = ["*.sh"];
           };
-          #  rustfmt = {
-          #    command = "rustfmt";
-          #    includes = ["*.rs"];
-          #    options = [
-          #      "--edition"
-          #      "2021"
-          #    ];
-          #};
+          rustfmt = {
+            command = "rustfmt";
+            includes = ["*.rs"];
+            options = [
+              "--edition"
+              "2021"
+            ];
+          };
         };
       };
     }
