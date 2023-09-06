@@ -10,7 +10,10 @@
   },
 
   // run arguments passed to docker
-  "runArgs": ["--security-opt", "label=disable"],
+  "runArgs": [
+    "--security-opt",
+    "label=disable"
+  ],
 
   "containerEnv": {
     // extensions to preload before other extensions
