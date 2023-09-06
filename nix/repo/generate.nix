@@ -9,7 +9,7 @@
 
   # Creates a sed command to replace all instances of your args name with the corrisponding bash argument number eg s/PAGENAME/$1/g
   #sedReplacement = schema: args: ''OUT=$(sed ${l.concatMapStringsSep " " (x: "-e \"s/${x}/\$${l.toString (l.getAttr x args)}/g\"") (l.attrNames args)} ${schema})'';
-  phpReplacement = schema: ''OUT=$(php ${schema} "$@")'';
+  phpReplacement = schema: ''OUT=$(${nixpkgs.php}/bin/php ${schema} "$@")'';
 
   templates = {
     page = rec {
@@ -47,10 +47,8 @@
   };
 in {
   generate =
-    std.lib.ops.writeScript {
-      runtimeInputs = [nixpkgs.php];
-      name = "generate";
-      text = ''
+    nixpkgs.writeScriptBin "generate" 
+      ''
         if GPATH=$(git rev-parse --show-toplevel --quiet 2>/dev/null); then
           cd "$GPATH";
         else
@@ -88,8 +86,4 @@ in {
           fi
         '') (l.attrValues templates)}
       '';
-    }
-    // {
-      meta.description = "A quick templating solution using nix and php, its better then it sounds.";
-    };
 }
