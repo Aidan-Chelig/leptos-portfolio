@@ -47,43 +47,43 @@
   };
 in {
   generate =
-    nixpkgs.writeScriptBin "generate" 
-      ''
-        if GPATH=$(git rev-parse --show-toplevel --quiet 2>/dev/null); then
-          cd "$GPATH";
-        else
-          echo "Not a valid Git repository, exiting"
+    nixpkgs.writeScriptBin "generate"
+    ''
+      if GPATH=$(git rev-parse --show-toplevel --quiet 2>/dev/null); then
+        cd "$GPATH";
+      else
+        echo "Not a valid Git repository, exiting"
+        exit
+      fi
+
+      if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]
+      then
+        echo "usage: generate <template-name> <template-args>";
+        printf "available templates:\n\n"
+        ### Print template usage and description
+        echo "${l.concatMapStringsSep "\\n" (x: "${x.usage}\n${x.description}\n") (l.attrValues templates)}"
+      fi
+
+      ###
+      if ! [ $# -gt 0 ]
+      then
+        exit
+      fi
+
+      ${l.concatMapStringsSep "\n" (x: ''
+        if [ "$1" = "${x.template-name}" ]
+        then
+          shift;
+          ### preGenerate Phase
+          ${x.preGenerate}
+
+          ### generate Phase
+          ${x.generate}
+
+          ### postGenerate Phase
+          ${x.postGenerate}
           exit
         fi
-
-        if [ $# -eq 0 ] || [ "$1" = "--help" ] || [ "$1" = "-h" ]
-        then
-          echo "usage: generate <template-name> <template-args>";
-          printf "available templates:\n\n"
-          ### Print template usage and description
-          echo "${l.concatMapStringsSep "\\n" (x: "${x.usage}\n${x.description}\n") (l.attrValues templates)}"
-        fi
-
-        ###
-        if ! [ $# -gt 0 ]
-        then
-          exit
-        fi
-
-        ${l.concatMapStringsSep "\n" (x: ''
-          if [ "$1" = "${x.template-name}" ]
-          then
-            shift;
-            ### preGenerate Phase
-            ${x.preGenerate}
-
-            ### generate Phase
-            ${x.generate}
-
-            ### postGenerate Phase
-            ${x.postGenerate}
-            exit
-          fi
-        '') (l.attrValues templates)}
-      '';
+      '') (l.attrValues templates)}
+    '';
 }
