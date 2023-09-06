@@ -29,10 +29,10 @@
   "customizations": {
     "vscode": {
       "extensions": [
-    "jnoortheen.nix-ide",
-    "rust-lang.rust-analyzer",
-    "mkhl.direnv",
-    "vadimcn.vscode-lldb"
+        "jnoortheen.nix-ide",
+        "rust-lang.rust-analyzer",
+        "mkhl.direnv",
+        "vadimcn.vscode-lldb"
       ]
     }
   },
