@@ -1,10 +1,11 @@
-{
-  inputs,
-  cell,
-}: let
+{ inputs
+, cell
+,
+}:
+let
   inherit (inputs.std) std lib;
-  inherit (inputs) nixpkgs;
-  inherit (inputs.cells) leptos_portfolio;
+  inherit (inputs) nixpkgs nixpkgs-gobang;
+  #inherit (inputs.cells) leptos_portfolio;
 
   l = nixpkgs.lib // builtins;
 
@@ -12,7 +13,7 @@
     packages = with nixpkgs; [
       pkg-config
       gcc
-      dart-sass
+      #dart-sass
       cargo-generate
       binaryen
       trunk
@@ -23,11 +24,11 @@
     language.rust = {
       packageSet = cell.rust;
       enableDefaultToolchain = true;
-      tools = ["toolchain"]; # fenix collates them all in a convenience derivation
+      tools = [ "toolchain" ]; # fenix collates them all in a convenience derivation
     };
 
     devshell.startup.postgres-setup = {
-      deps = [];
+      deps = [ ];
       text = ''
         mkdir -p ./.db/pgsql
         if [ -z "$(ls -A ./.db/pgsql)" ]; then
@@ -37,7 +38,7 @@
     };
 
     devshell.startup.link-cargo-home = {
-      deps = [];
+      deps = [ ];
       text = ''
         # ensure CARGO_HOME is populated
         mkdir -p $PRJ_DATA_DIR/cargo
@@ -91,22 +92,23 @@
       #(lib.dev.mkNixago lib.cfg.githubsettings cell.configs.githubsettings)
       (cell.configs.lefthook)
     ];
-    commands = let
-      rustCmds =
-        l.map
-        (name: {
-          inherit name;
-          package = cell.rust.toolchain; # has all bins
-          category = "rust dev";
-          # fenix doesn't include package descriptions, so pull those out of their equivalents in nixpkgs
-          help = nixpkgs.${name}.meta.description;
-        }) [
-          "rustc"
-          "cargo"
-          "rustfmt"
-          "rust-analyzer"
-        ];
-    in
+    commands =
+      let
+        rustCmds =
+          l.map
+            (name: {
+              inherit name;
+              package = cell.rust.toolchain; # has all bins
+              category = "rust dev";
+              # fenix doesn't include package descriptions, so pull those out of their equivalents in nixpkgs
+              help = nixpkgs.${name}.meta.description;
+            }) [
+            "rustc"
+            "cargo"
+            "rustfmt"
+            "rust-analyzer"
+          ];
+      in
       [
         {
           package = cell.generate.generate;
@@ -145,13 +147,14 @@
           category = "database";
         }
         {
-          package = nixpkgs.gobang;
+          package = nixpkgs.termdbms;
           category = "database";
         }
       ]
       ++ rustCmds;
   };
-in {
+in
+{
   inherit dev;
   default = dev;
 }
