@@ -10,25 +10,21 @@ async fn main() -> std::io::Result<()> {
 	let conf = get_configuration(None).await.unwrap();
 	let addr = conf.leptos_options.site_addr;
 	// Generate the list of routes in your Leptos App
-	let routes = generate_route_list(|cx| view! { cx, <App/> });
+	let routes = generate_route_list(App);
+	println!("listening on http://{}", &addr);
 
 	HttpServer::new(move || {
 		let leptos_options = &conf.leptos_options;
 		let site_root = &leptos_options.site_root;
 
 		App::new()
-            .route("/api/{tail:.*}", leptos_actix::handle_server_fns())
             // serve JS/WASM/CSS from `pkg`
             .service(Files::new("/pkg", format!("{site_root}/pkg")))
             // serve other assets from the `assets` directory
             .service(Files::new("/assets", site_root))
             // serve the favicon from /favicon.ico
             .service(favicon)
-            .leptos_routes(
-                leptos_options.to_owned(),
-                routes.to_owned(),
-                |cx| view! { cx, <App/> },
-            )
+            .leptos_routes(leptos_options.to_owned(), routes.to_owned(), App)
             .app_data(web::Data::new(leptos_options.to_owned()))
 		//.wrap(middleware::Compress::default())
 	})
@@ -68,9 +64,5 @@ pub fn main() {
 
 	console_error_panic_hook::set_once();
 
-	leptos::mount_to_body(move |cx| {
-		// note: for testing it may be preferrable to replace this with a
-		// more specific component, although leptos_router should still work
-		view! {cx, <App/> }
-	});
+	leptos::mount_to_body(App);
 }
