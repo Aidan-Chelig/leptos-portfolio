@@ -1,8 +1,7 @@
-{ inputs
-, cell
-,
-}:
-let
+{
+  inputs,
+  cell,
+}: let
   inherit (inputs) std self cells nixpkgs;
 
   leptosNativeBuildInputs = with nixpkgs; [
@@ -27,26 +26,26 @@ let
   # TODO  get this working!!!!
   cargoArtifacts = crane.buildDepsOnly (commonArgs
     // {
-    cargoExtraArgs = "--profile release";
-  });
+      cargoExtraArgs = "--profile release";
+    });
 
   leptos_portfolio_ssr = crane.buildPackage (commonArgs
     // rec {
-    nativeBuildInputs = leptosNativeBuildInputs;
-    cargoBuildCommand = "cargo leptos --log wasm --log server build";
-    cargoExtraArgs = "--release";
-    installPhaseCommand = ''
-      mkdir -p $out/bin;
-      mkdir -p $out/usr/share;
-      mv ./target/server/release/leptos_portfolio $out/bin/
-      mv ./target/site/ $out/usr/share/
-    '';
-    doCheck = false;
-    buildPhaseCargoCommand = "${cargoBuildCommand} ${cargoExtraArgs}";
-  }
+      nativeBuildInputs = leptosNativeBuildInputs;
+      cargoBuildCommand = "cargo leptos --log wasm --log server build";
+      cargoExtraArgs = "--release";
+      installPhaseCommand = ''
+        mkdir -p $out/bin;
+        mkdir -p $out/usr/share;
+        mv ./target/server/release/leptos_portfolio $out/bin/
+        mv ./target/site/ $out/usr/share/
+      '';
+      doCheck = false;
+      buildPhaseCargoCommand = "${cargoBuildCommand} ${cargoExtraArgs}";
+    }
     // {
-    inherit cargoArtifacts;
-  });
+      inherit cargoArtifacts;
+    });
 
   wasmArgs =
     commonArgs
@@ -58,20 +57,19 @@ let
 
   cargoArtifactsWasm = crane.buildDepsOnly (wasmArgs
     // {
-    doCheck = false;
-  });
+      doCheck = false;
+    });
 
   leptos_portfolio_csr = crane.buildTrunkPackage (wasmArgs
     // {
-    pname = "leptos_portfolio_csr";
-    cargoArtifacts = cargoArtifactsWasm;
-    trunkIndexPath = "index.html";
-    trunkExtraBuildArgs = "--features csr";
-  });
+      pname = "leptos_portfolio_csr";
+      cargoArtifacts = cargoArtifactsWasm;
+      trunkIndexPath = "index.html";
+      trunkExtraBuildArgs = "--features csr";
+    });
 
   crane = inputs.crane.lib.overrideToolchain cells.repo.rust.toolchain;
-in
-{
+in {
   #sane default for a binary package
 
   default = leptos_portfolio_ssr;

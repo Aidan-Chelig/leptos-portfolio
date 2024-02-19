@@ -41,15 +41,15 @@
           # Contribution Environment
           (nixago "configs")
           (devshells "shells")
-          #(runnables "operables")
+          (runnables "operables")
           (installables "generate")
-          #(containers "containers")
+          (containers "containers")
         ];
       }
       {
         devShells = std.harvest self [ "repo" "shells" ];
         packages = std.harvest self [ "leptos_porfolio" "packages" ];
-        #containers = std.harvest self [ "leptos_portfolio" "containers" ];
+        containers = std.harvest self [ "leptos_portfolio" "containers" ];
       };
 
   nixConfig = { };

@@ -13,7 +13,7 @@ let
     packages = with nixpkgs; [
       pkg-config
       gcc
-      #dart-sass
+      dart-sass
       cargo-generate
       binaryen
       trunk
@@ -120,6 +120,10 @@ let
         }
         {
           package = nixpkgs.miniserve;
+          category = "dev tools";
+        }
+        {
+          package = nixpkgs.cargo-edit;
           category = "dev tools";
         }
         {
