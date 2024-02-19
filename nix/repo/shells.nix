@@ -60,6 +60,14 @@ let
         eval = "$PRJ_DATA_DIR/rustup";
       }
       {
+        name = "PLAYWRIGHT_BROWSERS_PATH";
+        value = "${nixpkgs.playwright-driver.browsers}";
+      }
+      {
+        name = "PLAYWRIGHT_SKIP_VALIDATE_HOST_REQUIREMENTS";
+        value = "true";
+      }
+      {
         name = "RUST_SRC_PATH";
         # accessing via toolchain doesn't fail if it's not there
         # and rust-analyzer is graceful if it's not set correctly:
@@ -139,6 +147,10 @@ let
           category = "dev tools";
         }
         {
+          package = nixpkgs.playwright-driver.browsers;
+          category = "dev tools";
+        }
+         {
           package = nixpkgs.cargo-leptos;
           category = "build tools";
         }
