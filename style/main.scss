@@ -5,8 +5,12 @@
 body {
   font-family: sans-serif;
   text-align: center;
-  background: rgb(33,33,33);
-  background: linear-gradient(180deg, rgba(33,33,33,1) 0%, rgba(61,29,71,1) 97%);
+  background: rgb(33, 33, 33);
+  background: linear-gradient(
+    180deg,
+    rgba(33, 33, 33, 1) 0%,
+    rgba(61, 29, 71, 1) 97%
+  );
   color: white;
   width: 100vw;
   height: 100vh;
