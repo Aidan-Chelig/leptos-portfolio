@@ -3,6 +3,7 @@ use leptos::*;
 use leptos_meta::*;
 use leptos_router::*;
 use pages::*;
+use rand::Rng;
 
 #[component]
 pub fn App() -> impl IntoView {
@@ -10,22 +11,22 @@ pub fn App() -> impl IntoView {
 	provide_meta_context();
 
 	view! {
-		// injects a stylesheet into the document <head>
-		// id=leptos means cargo-leptos will hot-reload this stylesheet
-		//<Stylesheet id="leptos" href="style/tailwind.css"/>
+	  // injects a stylesheet into the document <head>
+	  // id=leptos means cargo-leptos will hot-reload this stylesheet
+	  //<Stylesheet id="leptos" href="style/tailwind.css"/>
 
-		// sets the document title
-		<Title text="Welcome to Leptos"/>
+	  // sets the document title
+	  <Title text="Welcome to Leptos"/>
 
-		// content for this welcome page
-		<Router>
-			<main>
-				<Routes>
-					<Route path="" view=Home/>
-					<Route path="/*any" view=NotFound/>
-				</Routes>
-			</main>
-		</Router>
+	  // content for this welcome page
+	  <Router>
+	  <main>
+	  <Routes>
+	  <Route path="" view=Home/>
+	  <Route path="/*any" view=NotFound/>
+	  </Routes>
+	  </main>
+	  </Router>
 	}
 }
 
@@ -38,6 +39,28 @@ fn NotFound() -> impl IntoView {
 	// if you navigate to the 404 page subsequently, the status
 	// code will not be set because there is not a new HTTP request
 	// to the server
+	//
+
+	let mut rng = rand::thread_rng();
+
+	let phraseNum: usize = rng.gen();
+	let bumpNum: usize = rng.gen();
+	const PHRASES: &'static [&'static str] = &[
+		"What are you looking for?",
+		"Wrong way!",
+		"Alone, alone, alone, alone, alone, alone...",
+		"https://en.wikipedia.org/wiki/HTTP_404",
+		"Like watching paint dry",
+		"?",
+		"Nothing here",
+	];
+
+	let image = "/assets/404-bumpers/".to_string()
+		+ &(bumpNum % 10).to_string()
+		+ ".jpg";
+
+	drop(rng);
+
 	#[cfg(feature = "ssr")]
 	{
 		// this can be done inline because it's synchronous
@@ -47,6 +70,10 @@ fn NotFound() -> impl IntoView {
 	}
 
 	view! {
-		<h1>"Not Found"</h1>
+	  <div class="h-screen flex flex-col items-center">
+		  <h1>404</h1>
+		  <img class="h-1/2 w-max" src=image />
+		  <h2>{{PHRASES[phraseNum % PHRASES.len()]}}</h2>
+	  </div>
 	}
 }
