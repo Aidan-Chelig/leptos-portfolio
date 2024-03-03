@@ -19,7 +19,7 @@ pub fn App() -> impl IntoView {
 
 	  // content for this welcome page
 	  <Router>
-	  <main>
+	  <main class="w-screen h-screen">
 	  <Routes>
 	  <Route path="" view=Home/>
 	  <Route path="/*any" view=NotFound/>
