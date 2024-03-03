@@ -22,32 +22,32 @@
   inputs.crane.url = "github:ipetkov/crane";
   inputs.crane.inputs.nixpkgs.follows = "nixpkgs";
 
-  outputs =
-    { self
-    , std
-    , ...
-    } @ inputs:
+  outputs = {
+    self,
+    std,
+    ...
+  } @ inputs:
     std.growOn
-      {
-        inherit inputs;
-        systems = [ "x86_64-linux" "aarch64-linux" ];
-        cellsFrom = ./nix;
-        cellBlocks = with std.blockTypes; [
-          (pkgs "rust")
-          (installables "packages")
-          # Contribution Environment
-          (nixago "configs")
-          (devshells "shells")
-          (runnables "operables")
-          (installables "generate")
-          (containers "containers")
-        ];
-      }
-      {
-        devShells = std.harvest self [ "repo" "shells" ];
-        packages = std.harvest self [ "leptos_porfolio" "packages" ];
-        containers = std.harvest self [ "leptos_portfolio" "containers" ];
-      };
+    {
+      inherit inputs;
+      systems = ["x86_64-linux" "aarch64-linux"];
+      cellsFrom = ./nix;
+      cellBlocks = with std.blockTypes; [
+        (pkgs "rust")
+        (installables "packages")
+        # Contribution Environment
+        (nixago "configs")
+        (devshells "shells")
+        (runnables "operables")
+        (installables "generate")
+        (containers "containers")
+      ];
+    }
+    {
+      devShells = std.harvest self ["repo" "shells"];
+      packages = std.harvest self ["leptos_porfolio" "packages"];
+      containers = std.harvest self ["leptos_portfolio" "containers"];
+    };
 
-  nixConfig = { };
+  nixConfig = {};
 }
