@@ -2359,6 +2359,18 @@ dependencies = [
 ]
 
 [[package]]
+name = "flume"
+version = "0.11.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "55ac459de2512911e4b674ce33cf20befaba382d05b62b008afc1c8b57cbf181"
+dependencies = [
+ "futures-core",
+ "futures-sink",
+ "nanorand",
+ "spin",
+]
+
+[[package]]
 name = "fnv"
 version = "1.0.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -3501,6 +3513,7 @@ dependencies = [
  "actix-web",
  "bevy",
  "console_error_panic_hook",
+ "flume 0.11.0",
  "http 0.2.11",
  "leptos",
  "leptos_actix",
@@ -3595,7 +3608,7 @@ checksum = "d8b9217ed2c9ccf7dc6d734d4e88456c267e31484863247898702cbf52dd25d9"
 dependencies = [
  "console_error_panic_hook",
  "const_format",
- "flume",
+ "flume 0.10.14",
  "futures",
  "js-sys",
  "leptos_workers_macro",

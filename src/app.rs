@@ -1,16 +1,15 @@
 pub mod pages;
 use leptos::{leptos_dom::logging::console_log, *};
 use leptos_meta::*;
-use leptos_portfolio::simulation;
 use leptos_router::*;
+use leptos_workers::worker;
 use pages::*;
+use web_sys::MessageChannel;
 
 #[component]
 pub fn App() -> impl IntoView {
 	// Provides context that manages stylesheets, titles, meta tags, etc.
 	provide_meta_context();
-
-	console_log("asdasasdasdsd");
 
 	view! {
 	  // injects a stylesheet into the document <head>
@@ -30,4 +29,12 @@ pub fn App() -> impl IntoView {
 	  </main>
 	  </Router>
 	}
+}
+
+#[worker(MyChannelWorker)]
+pub fn worker(
+	rx: leptos_workers::Receiver<i32>,
+	tx: leptos_workers::Sender<i32>,
+) {
+	console_log("in worker");
 }
