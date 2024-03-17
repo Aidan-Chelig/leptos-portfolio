@@ -1,3 +1,4 @@
+#![feature(iter_intersperse)]
 pub mod app;
 
 #[cfg(feature = "hydrate")]

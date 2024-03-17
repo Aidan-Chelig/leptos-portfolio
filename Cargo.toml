@@ -1,3 +1,4 @@
+#![feature(iter_intersperse)]
 [package]
 name = "leptos_portfolio"
 version = "0.1.0"
@@ -18,7 +19,7 @@ http = { version = "0.2", optional = true }
 leptos = { version = "0.6", features = ["nightly", "csr"] }
 leptos_meta = { version = "0.6", features = ["nightly", "csr"] }
 leptos_actix = { version = "0.6", optional = true }
-leptos_router = { version = "0.6", features = ["nightly"] }
+leptos_router = { version = "0.6", features = ["nightly", "csr"] }
 wasm-bindgen = "0.2.90"
 rand = "0.8.5"
 bevy = "0.13.0"

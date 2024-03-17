@@ -22,17 +22,6 @@ pub fn NotFound() -> impl IntoView {
 	let bumpNum: usize = rng.gen();
 	drop(rng);
 
-	const PHRASES: &'static [&'static str] = &[
-		"What are you looking for?",
-		"Wrong way!",
-		"Alone, alone, alone, alone, alone, alone...",
-		"https://en.wikipedia.org/wiki/HTTP_404",
-		"Like watching paint dry",
-		"?",
-		"Nothing here",
-		"Out of bounds!",
-	];
-
 	let image = "/assets/404-bumpers/".to_string()
 		+ &(bumpNum % 10).to_string()
 		+ ".jpg";

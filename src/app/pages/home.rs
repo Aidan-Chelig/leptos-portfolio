@@ -22,7 +22,8 @@ pub fn Home() -> impl IntoView {
 			   <hr class="mt-1"/>
 			   <div>
 	{ROLES.iter()
-			 .map(|role| {view! { <span>{*role}</span><span>" \u{2022} "</span>}})
+	  .intersperse( &" \u{2022} " )
+			 .map(|role| {view! { <span class="uppercase">{*role}</span>}})
 			 .collect_view()}
 			   </div>
 		   </div>

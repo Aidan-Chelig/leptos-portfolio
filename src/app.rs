@@ -1,3 +1,4 @@
+#![feature(iter_intersperse)]
 pub mod pages;
 use leptos::{leptos_dom::logging::console_log, *};
 use leptos_meta::*;
