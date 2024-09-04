@@ -16,7 +16,6 @@
       cargo-generate
       binaryen
       trunk
-      rnix-lsp
       nil
       lldb
     ];
